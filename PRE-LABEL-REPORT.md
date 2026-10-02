@@ -15,11 +15,12 @@
 
 Số hộp và `mean_z` dưới đây lấy từ `summary.csv`; lớp và vị trí lấy từ JSON tương ứng. Cả ba lượt đều có JSON, ảnh Side và CSV.
 
-| Lượt | `delta` (m) | Pillar XY (m) | Số hộp | `mean_z` (m) | Lớp dự đoán | Bằng chứng |
-| --- | ---: | ---: | ---: | ---: | --- | --- |
-| A | 0 | 0,16 | 1 | 0,330 | 1 `vehicles` | [JSON](ket-qua-nhom-dongphuongbatbai/run-A/boxes-demo-delta-0-voxel-0.16.json) · [Side](ket-qua-nhom-dongphuongbatbai/run-A/side-demo-delta-0-voxel-0.16.png) · [CSV](ket-qua-nhom-dongphuongbatbai/run-A/summary.csv) |
-| B | 1,73 | 0,16 | 13 | 1,034 | 10 `vehicles`, 1 `two-wheels`, 2 `pedestrian` | [JSON](ket-qua-nhom-dongphuongbatbai/run-B/boxes-demo-delta-1.73-voxel-0.16.json) · [Side](ket-qua-nhom-dongphuongbatbai/run-B/side-demo-delta-1.73-voxel-0.16.png) · [CSV](ket-qua-nhom-dongphuongbatbai/run-B/summary.csv) |
-| C | 1,73 | 0,32 | 6 | 1,091 | 6 `pedestrian` | [JSON](ket-qua-nhom-dongphuongbatbai/run-C/boxes-demo-delta-1.73-voxel-0.32.json) · [Side](ket-qua-nhom-dongphuongbatbai/run-C/side-demo-delta-1.73-voxel-0.32.png) · [CSV](ket-qua-nhom-dongphuongbatbai/run-C/summary.csv) |
+
+| Lượt | `delta` (m) | Pillar XY (m) | Số hộp | `mean_z` (m) | Lớp dự đoán                              | Bằng chứng                                                                                                                                                                                                                   |
+| -------- | ------------: | --------------: | ---------: | -------------: | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A      |           0 |          0,16 |        1 |        0,330 | 1`vehicles`                                  | [JSON](ket-qua-nhom-dongphuongbatbai/run-A/boxes-demo-delta-0-voxel-0.16.json) · [Side](ket-qua-nhom-dongphuongbatbai/run-A/side-demo-delta-0-voxel-0.16.png) · [CSV](ket-qua-nhom-dongphuongbatbai/run-A/summary.csv)       |
+| B      |        1,73 |          0,16 |       13 |        1,034 | 10`vehicles`, 1 `two-wheels`, 2 `pedestrian` | [JSON](ket-qua-nhom-dongphuongbatbai/run-B/boxes-demo-delta-1.73-voxel-0.16.json) · [Side](ket-qua-nhom-dongphuongbatbai/run-B/side-demo-delta-1.73-voxel-0.16.png) · [CSV](ket-qua-nhom-dongphuongbatbai/run-B/summary.csv) |
+| C      |        1,73 |          0,32 |        6 |        1,091 | 6`pedestrian`                                | [JSON](ket-qua-nhom-dongphuongbatbai/run-C/boxes-demo-delta-1.73-voxel-0.32.json) · [Side](ket-qua-nhom-dongphuongbatbai/run-C/side-demo-delta-1.73-voxel-0.32.png) · [CSV](ket-qua-nhom-dongphuongbatbai/run-C/summary.csv) |
 
 ### So sánh và giới hạn kết luận
 
@@ -43,11 +44,12 @@ Script đổi point cloud **trước** inference rồi đổi các hộp về h�
 
 [Manifest QC](ket-qua-nhom-dongphuongbatbai/qc-cases/manifest.json) đánh dấu `training_only: true` và trỏ đến prediction B có SHA-256 `c2a8db247353f0ef00299ff50acff997b7b4a87bdcfcefe792815acb5652cc80`. Helper tạo biến đổi có chủ đích từ 13 hộp B; đây **không phải** ba lượt inference khác hoặc đáp án chuẩn.
 
-| Ca | Hộp đổi z | Mức đổi so với B | Class/x/y/yaw | Hành động có cơ sở | Bằng chứng |
-| --- | ---: | --- | --- | --- | --- |
-| `case-correct` | 0/13 | 0 m | Giữ nguyên | Bản copy prediction để đối chiếu phép đổi z; vẫn cần QC trước khi coi hộp đúng. | [JSON](ket-qua-nhom-dongphuongbatbai/qc-cases/case-correct.json) · [Side](ket-qua-nhom-dongphuongbatbai/qc-cases/side-correct.png) |
-| `case-batch-z` | 13/13 | −1,805 m mỗi hộp | Giữ nguyên | Dừng sửa tay cả batch; báo LC kiểm transform/pipeline và tạo lại prediction đúng. | [JSON](ket-qua-nhom-dongphuongbatbai/qc-cases/case-batch-z.json) · [Side](ket-qua-nhom-dongphuongbatbai/qc-cases/side-batch-z.png) |
-| `case-one-box-z` | 1/13 (hộp index 0) | −1,805 m ở hộp đó | Giữ nguyên | Kiểm riêng hộp này ở nhiều view và đối chiếu mặt đường cục bộ; chưa kết luận lỗi cả pipeline hoặc tự kéo hộp theo một hằng số. | [JSON](ket-qua-nhom-dongphuongbatbai/qc-cases/case-one-box-z.json) · [Side](ket-qua-nhom-dongphuongbatbai/qc-cases/side-one-box-z.png) |
+
+| Ca               |        Hộp đổi z | Mức đổi so với B   | Class/x/y/yaw | Hành động có cơ sở                                                                                                                                   | Bằng chứng                                                                                                                            |
+| ------------------ | --------------------: | ------------------------ | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `case-correct`   |                0/13 | 0 m                    | Giữ nguyên  | Bản copy prediction để đối chiếu phép đổi z; vẫn cần QC trước khi coi hộp đúng.                                                            | [JSON](ket-qua-nhom-dongphuongbatbai/qc-cases/case-correct.json) · [Side](ket-qua-nhom-dongphuongbatbai/qc-cases/side-correct.png)     |
+| `case-batch-z`   |               13/13 | −1,805 m mỗi hộp    | Giữ nguyên  | Dừng sửa tay cả batch; báo LC kiểm transform/pipeline và tạo lại prediction đúng.                                                                | [JSON](ket-qua-nhom-dongphuongbatbai/qc-cases/case-batch-z.json) · [Side](ket-qua-nhom-dongphuongbatbai/qc-cases/side-batch-z.png)     |
+| `case-one-box-z` | 1/13 (hộp index 0) | −1,805 m ở hộp đó | Giữ nguyên  | Kiểm riêng hộp này ở nhiều view và đối chiếu mặt đường cục bộ; chưa kết luận lỗi cả pipeline hoặc tự kéo hộp theo một hằng số. | [JSON](ket-qua-nhom-dongphuongbatbai/qc-cases/case-one-box-z.json) · [Side](ket-qua-nhom-dongphuongbatbai/qc-cases/side-one-box-z.png) |
 
 ## 4. Nhận xét từng thành viên
 
@@ -60,7 +62,8 @@ Các ý dưới đây **do công cụ biên tập lại** từ bản báo cáo n
 - **Phép z:** cần trừ `z_ground + delta` trước inference và cộng lại khi đưa hộp về hệ nguồn; B dùng offset 1,805 m.
 - **Quyết định:** `case-batch-z` làm 13/13 tâm z giảm cùng 1,805 m; dừng chỉnh tay và báo LC kiểm transform.
 - **Điều chưa chắc:** thay score threshold có thể giảm hộp nhiễu hay cũng làm mất hộp đúng; không quyết định chỉ dựa trên số hộp hiện có.
-- [ ] **Xác nhận của Thành viên 1:** Tôi đã đọc, chỉnh nếu cần và đồng ý với phần nhận xét của mình. Ngày xác nhận: __________.
+
+- [ ]  **Xác nhận của Thành viên 1:** Tôi đã đọc, chỉnh nếu cần và đồng ý với phần nhận xét của mình. Ngày xác nhận: __________.
 
 ### Thành viên 2
 
@@ -69,7 +72,8 @@ Các ý dưới đây **do công cụ biên tập lại** từ bản báo cáo n
 - **Phép z:** trừ offset trên input trước inference; sau inference cộng offset để trả tọa độ hộp về hệ nguồn. Không trừ z sau inference để “trả về” PCD nguồn.
 - **Quyết định:** với `case-one-box-z`, kiểm hộp index 0 ở nhiều view và đối chiếu các hộp còn lại; không tự hạ/nâng đáy hộp trước khi có bằng chứng hình học.
 - **Điều chưa chắc:** pillar 0,32 m có làm mất chi tiết vật thể nhỏ hay không; cần dữ liệu có nhãn và kiểm vùng cụ thể.
-- [ ] **Xác nhận của Thành viên 2:** Tôi đã đọc, chỉnh nếu cần và đồng ý với phần nhận xét của mình. Ngày xác nhận: __________.
+
+- [ ]  **Xác nhận của Thành viên 2:** Tôi đã đọc, chỉnh nếu cần và đồng ý với phần nhận xét của mình. Ngày xác nhận: __________.
 
 ### Thành viên 3
 
@@ -78,13 +82,15 @@ Các ý dưới đây **do công cụ biên tập lại** từ bản báo cáo n
 - **Phép z:** biến đổi input sang hệ mà checkpoint KITTI mong đợi trước khi model chạy, rồi đổi kết quả về hệ PCD nguồn để đọc/QC.
 - **Quyết định:** khi cả batch lệch cùng lượng z, dừng và yêu cầu kiểm phép chuyển frame thay vì sửa từng hộp.
 - **Điều chưa chắc:** ở cụm điểm thưa, cần thêm góc nhìn/ngữ cảnh để phân biệt người với vật thể khác; không gán class theo suy đoán.
-- [ ] **Xác nhận của Thành viên 3:** Tôi đã đọc, chỉnh nếu cần và đồng ý với phần nhận xét của mình. Ngày xác nhận: __________.
 
-### Thành viên 4
+- [ ]  **Xác nhận của Thành viên 3:** Tôi đã đọc, chỉnh nếu cần và đồng ý với phần nhận xét của mình. Ngày xác nhận: __________.
+
+### Đinh Hoàng Lịch - 2A202602168
 
 - **Vai trò:** ghi log A; xem hình học B; kiểm JSON C.
 - **Quan sát:** [JSON B](ket-qua-nhom-dongphuongbatbai/run-B/boxes-demo-delta-1.73-voxel-0.16.json) có 10 `vehicles`, 1 `two-wheels`, 2 `pedestrian`; [JSON C](ket-qua-nhom-dongphuongbatbai/run-C/boxes-demo-delta-1.73-voxel-0.32.json) có 6 `pedestrian` khi chỉ đổi pillar. Điều này cho thấy biểu diễn đầu vào ảnh hưởng mạnh đến prediction, chưa chứng minh B chính xác hơn C.
 - **Phép z:** áp dụng đúng phép đổi thuận/ngược để so prediction trong cùng hệ tọa độ nguồn; không suy ra mọi model đều cần `delta=1,73 m`.
 - **Quyết định:** `case-one-box-z` chỉ đổi một hộp; kiểm đối tượng này bằng nhiều view, không dừng cả batch chỉ từ một trường hợp.
 - **Điều chưa chắc:** ảnh hưởng định lượng của việc bỏ intensity thật lên kết quả detector; bộ demo này không đủ để đo accuracy.
-- [ ] **Xác nhận của Thành viên 4:** Tôi đã đọc, chỉnh nếu cần và đồng ý với phần nhận xét của mình. Ngày xác nhận: __________.
+
+- [X]  **Xác nhận của Thành viên 4:** Tôi đã đọc, chỉnh nếu cần và đồng ý với phần nhận xét của mình. Ngày xác nhận: 1/10/2026.
